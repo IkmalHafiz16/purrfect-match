@@ -23,13 +23,23 @@ const Index = () => {
     setCats(catUrls);
   }, []);
 
-  const handleSwipe = (direction: "left" | "right") => {
+  const handleSwipe = async (direction: "left" | "right") => {
     if (isAnimating) return;
     
     setIsAnimating(true);
     
     if (direction === "right") {
-      setLikedCats([...likedCats, cats[currentIndex]]);
+      try {
+        // Fetch the image and convert to blob URL to preserve the exact image
+        const response = await fetch(cats[currentIndex]);
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        setLikedCats([...likedCats, blobUrl]);
+      } catch (error) {
+        console.error("Error fetching image:", error);
+        // Fallback to original URL if fetch fails
+        setLikedCats([...likedCats, cats[currentIndex]]);
+      }
     }
 
     setTimeout(() => {
