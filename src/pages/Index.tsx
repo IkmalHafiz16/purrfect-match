@@ -13,33 +13,44 @@ const Index = () => {
   const [likedCats, setLikedCats] = useState<string[]>([]);
   const [showSummary, setShowSummary] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    // Generate cat URLs from Cataas API
+  const loadCatImages = async () => {
+    setIsLoading(true);
     const catUrls = Array.from(
       { length: CAT_COUNT },
       (_, i) => `https://cataas.com/cat?${Date.now()}-${i}`
     );
-    setCats(catUrls);
+    
+    // Preload all images and convert to blob URLs
+    const blobUrls = await Promise.all(
+      catUrls.map(async (url) => {
+        try {
+          const response = await fetch(url);
+          const blob = await response.blob();
+          return URL.createObjectURL(blob);
+        } catch (error) {
+          console.error("Error loading image:", error);
+          return url; // Fallback to original URL
+        }
+      })
+    );
+    
+    setCats(blobUrls);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    loadCatImages();
   }, []);
 
-  const handleSwipe = async (direction: "left" | "right") => {
+  const handleSwipe = (direction: "left" | "right") => {
     if (isAnimating) return;
     
     setIsAnimating(true);
     
     if (direction === "right") {
-      try {
-        // Fetch the image and convert to blob URL to preserve the exact image
-        const response = await fetch(cats[currentIndex]);
-        const blob = await response.blob();
-        const blobUrl = URL.createObjectURL(blob);
-        setLikedCats([...likedCats, blobUrl]);
-      } catch (error) {
-        console.error("Error fetching image:", error);
-        // Fallback to original URL if fetch fails
-        setLikedCats([...likedCats, cats[currentIndex]]);
-      }
+      setLikedCats([...likedCats, cats[currentIndex]]);
     }
 
     setTimeout(() => {
@@ -53,20 +64,29 @@ const Index = () => {
   };
 
   const handleRestart = () => {
-    const catUrls = Array.from(
-      { length: CAT_COUNT },
-      (_, i) => `https://cataas.com/cat?${Date.now()}-${i}`
-    );
-    setCats(catUrls);
     setCurrentIndex(0);
     setLikedCats([]);
     setShowSummary(false);
+    loadCatImages();
   };
 
   const progressValue = ((currentIndex + 1) / cats.length) * 100;
 
   if (showSummary) {
     return <Summary likedCats={likedCats} onRestart={handleRestart} />;
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 md:p-6 bg-[image:var(--gradient-bg)]">
+        <div className="text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-like/20 mb-4 animate-bounce">
+            <Cat className="w-8 h-8 text-like" />
+          </div>
+          <p className="text-xl text-foreground">Loading adorable cats...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
