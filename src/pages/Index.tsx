@@ -2,10 +2,14 @@ import { useState, useEffect } from "react";
 import { SwipeCard } from "@/components/SwipeCard";
 import { ActionButtons } from "@/components/ActionButtons";
 import { Summary } from "@/components/Summary";
+import { FeedbackMessage } from "@/components/FeedbackMessage";
 import { Progress } from "@/components/ui/progress";
 import { Cat } from "lucide-react";
 
 const CAT_COUNT = 15;
+
+const LIKE_MESSAGES = ["Wonderful!", "Nice!", "Great!"];
+const DISLIKE_MESSAGES = ["I see", "Nah", "I understand why"];
 
 const Index = () => {
   const [cats, setCats] = useState<string[]>([]);
@@ -14,6 +18,7 @@ const Index = () => {
   const [showSummary, setShowSummary] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
 
   const loadCatImages = async () => {
     setIsLoading(true);
@@ -49,18 +54,25 @@ const Index = () => {
     
     setIsAnimating(true);
     
+    // Show random feedback message
     if (direction === "right") {
+      const randomMessage = LIKE_MESSAGES[Math.floor(Math.random() * LIKE_MESSAGES.length)];
+      setFeedbackMessage(randomMessage);
       setLikedCats([...likedCats, cats[currentIndex]]);
+    } else {
+      const randomMessage = DISLIKE_MESSAGES[Math.floor(Math.random() * DISLIKE_MESSAGES.length)];
+      setFeedbackMessage(randomMessage);
     }
 
     setTimeout(() => {
+      setFeedbackMessage("");
       if (currentIndex + 1 >= cats.length) {
         setShowSummary(true);
       } else {
         setCurrentIndex(currentIndex + 1);
       }
       setIsAnimating(false);
-    }, 300);
+    }, 800);
   };
 
   const handleRestart = () => {
@@ -134,6 +146,9 @@ const Index = () => {
               onSwipe={handleSwipe}
               isTop={true}
             />
+            
+            {/* Feedback Message */}
+            <FeedbackMessage message={feedbackMessage} />
           </>
         )}
       </div>
