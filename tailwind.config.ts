@@ -55,6 +55,10 @@ export default {
           DEFAULT: "hsl(var(--dislike))",
           foreground: "hsl(var(--dislike-foreground))",
         },
+        feedback: {
+          DEFAULT: "hsl(var(--feedback))",
+          foreground: "hsl(var(--feedback-foreground))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
