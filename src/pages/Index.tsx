@@ -7,7 +7,6 @@ import { Progress } from "@/components/ui/progress";
 import { Cat } from "lucide-react";
 import "../styles/Index.css";
 
-
 const CAT_COUNT = 15;
 
 const LIKE_MESSAGES = ["Wonderful!", "Nice!", "Great!"];
@@ -104,70 +103,65 @@ const Index = () => {
   }
 
   return (
-<div className="app-container">
-  {/* Background image that covers the entire page */}
-  <div className="background-image"></div>
-  
-  <div className="index-container">
-    {/* Header */}
-    <div className="index-header">
-      <div className="index-title-wrapper">
-        <div className="index-title-icon-wrapper">
-          <Cat className="index-title-icon" />
+    <div className="index-container">
+      {/* Header */}
+      <div className="index-header">
+        <div className="index-title-wrapper">
+          <div className="index-title-icon-wrapper">
+            <Cat className="index-title-icon" />
+          </div>
+          <h1 className="index-title">
+            CatSwipe
+          </h1>
         </div>
-        <h1 className="index-title">
-          CatSwipe
-        </h1>
+        
+        <div className="index-progress-wrapper">
+          <Progress value={progressValue} className="h-2" />
+          <p className="index-progress-text">
+            {currentIndex + 1} of {cats.length} cats
+          </p>
+        </div>
       </div>
-      
-      <div className="index-progress-wrapper">
-        <Progress value={progressValue} className="h-2" />
-        <p className="index-progress-text">
-          {currentIndex + 1} of {cats.length} cats
-        </p>
-      </div>
-    </div>
 
-    {/* Main card area */}
-    <main className="index-main">
-      <div className="index-cards-container">
-        {cats.length > 0 && currentIndex < cats.length && (
-          <>
-            {/* Next card preview */}
-            {currentIndex + 1 < cats.length && (
+      {/* Main card area */}
+      <main className="index-main">
+        <div className="index-cards-container">
+          {cats.length > 0 && currentIndex < cats.length && (
+            <>
+              {/* Next card preview */}
+              {currentIndex + 1 < cats.length && (
+                <SwipeCard
+                  key={currentIndex + 1}
+                  imageUrl={cats[currentIndex + 1]}
+                  onSwipe={() => {}}
+                  isTop={false}
+                />
+              )}
+              
+              {/* Current card */}
               <SwipeCard
-                key={currentIndex + 1}
-                imageUrl={cats[currentIndex + 1]}
-                onSwipe={() => {}}
-                isTop={false}
+                key={currentIndex}
+                imageUrl={cats[currentIndex]}
+                onSwipe={handleSwipe}
+                isTop={true}
               />
-            )}
-            
-            {/* Current card */}
-            <SwipeCard
-              key={currentIndex}
-              imageUrl={cats[currentIndex]}
-              onSwipe={handleSwipe}
-              isTop={true}
-            />
-            
-            {/* Feedback Message */}
-            <FeedbackMessage message={feedbackMessage} />
-          </>
-        )}
-      </div>
+              
+              {/* Feedback Message */}
+              <FeedbackMessage message={feedbackMessage} />
+            </>
+          )}
+        </div>
 
-      <ActionButtons
-        onLike={() => handleSwipe("right")}
-        onDislike={() => handleSwipe("left")}
-        disabled={isAnimating}
-      />
-    </main>
+        <ActionButtons
+          onLike={() => handleSwipe("right")}
+          onDislike={() => handleSwipe("left")}
+          disabled={isAnimating}
+        />
+      </main>
 
-    {/* Empty footer spacer */}
-    <div />
-  </div>
-</div>
+      {/* Empty footer spacer */}
+      <div />
+    </div>
   );
 };
 
