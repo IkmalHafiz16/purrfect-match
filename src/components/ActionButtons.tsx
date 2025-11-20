@@ -25,14 +25,6 @@ export const ActionButtons = ({ onLike, onDislike, disabled }: ActionButtonsProp
       >
         <Heart className="action-button-icon like" />
       </button>
-      
-      <button
-        onClick={onDislike}
-        disabled={disabled}
-        className="action-button dislike"
-      >
-        <X className="action-button-icon dislike" />
-      </button>
     </div>
   );
 };

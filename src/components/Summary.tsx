@@ -8,6 +8,9 @@ interface SummaryProps {
 
 export const Summary = ({ likedCats, onRestart }: SummaryProps) => {
   return (
+    <div className="app-container">
+  {/* Background image that covers the entire page */}
+  <div className="background-image"></div>
     <div className="summary-container">
       <div className="summary-content">
         <div className="summary-header">
@@ -64,5 +67,6 @@ export const Summary = ({ likedCats, onRestart }: SummaryProps) => {
         </div>
       </div>
     </div>
+        </div>
   );
 };
