@@ -7,6 +7,7 @@
   justify-content: space-between;
   padding: 1rem;
   background-image: var(--gradient-bg);
+  z-index: 1;
 }
 
 .index-loading-container {
@@ -142,4 +143,23 @@
     transform: translateY(0);
     animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
+}
+
+.app-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../Asset/23787286.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0; 
 }
