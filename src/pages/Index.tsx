@@ -5,6 +5,7 @@ import { Summary } from "@/components/Summary";
 import { FeedbackMessage } from "@/components/FeedbackMessage";
 import { Progress } from "@/components/ui/progress";
 import { Cat } from "lucide-react";
+import "../styles/Index.css";
 
 const CAT_COUNT = 15;
 
@@ -90,77 +91,76 @@ const Index = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 md:p-6 bg-[image:var(--gradient-bg)]">
-        <div className="text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-like/20 mb-4 animate-bounce">
-            <Cat className="w-8 h-8 text-like" />
+      <div className="index-loading-container">
+        <div className="index-loading-content">
+          <div className="index-loading-icon-wrapper">
+            <Cat className="index-loading-icon" />
           </div>
-          <p className="text-xl text-foreground">Loading adorable cats...</p>
+          <p className="index-loading-text">Loading adorable cats...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-between p-4 md:p-6 bg-[image:var(--gradient-bg)]">
+    <div className="index-container">
       {/* Header */}
-      <div className="w-full max-w-md pt-4 md:pt-8 pb-4">
-        <div className="flex items-center justify-center gap-3 mb-6">
-          <div className="w-12 h-12 rounded-full bg-like/20 flex items-center justify-center">
-            <Cat className="w-6 h-6 text-like" />
+      <div className="index-header">
+        <div className="index-title-wrapper">
+          <div className="index-title-icon-wrapper">
+            <Cat className="index-title-icon" />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+          <h1 className="index-title">
             CatSwipe
           </h1>
         </div>
         
-        <div className="space-y-2">
-          <div className="flex justify-between text-sm text-muted-foreground">
-            <span>Progress</span>
-            <span>
-              {currentIndex + 1} / {cats.length}
-            </span>
-          </div>
+        <div className="index-progress-wrapper">
           <Progress value={progressValue} className="h-2" />
+          <p className="index-progress-text">
+            {currentIndex + 1} of {cats.length} cats
+          </p>
         </div>
       </div>
 
-      {/* Card Stack */}
-      <div className="relative w-full max-w-md aspect-[3/4] my-8">
-        {cats.length > 0 && currentIndex < cats.length && (
-          <>
-            {/* Next card preview */}
-            {currentIndex + 1 < cats.length && (
+      {/* Main card area */}
+      <main className="index-main">
+        <div className="index-cards-container">
+          {cats.length > 0 && currentIndex < cats.length && (
+            <>
+              {/* Next card preview */}
+              {currentIndex + 1 < cats.length && (
+                <SwipeCard
+                  key={currentIndex + 1}
+                  imageUrl={cats[currentIndex + 1]}
+                  onSwipe={() => {}}
+                  isTop={false}
+                />
+              )}
+              
+              {/* Current card */}
               <SwipeCard
-                key={currentIndex + 1}
-                imageUrl={cats[currentIndex + 1]}
-                onSwipe={() => {}}
-                isTop={false}
+                key={currentIndex}
+                imageUrl={cats[currentIndex]}
+                onSwipe={handleSwipe}
+                isTop={true}
               />
-            )}
-            
-            {/* Current card */}
-            <SwipeCard
-              key={currentIndex}
-              imageUrl={cats[currentIndex]}
-              onSwipe={handleSwipe}
-              isTop={true}
-            />
-            
-            {/* Feedback Message */}
-            <FeedbackMessage message={feedbackMessage} />
-          </>
-        )}
-      </div>
+              
+              {/* Feedback Message */}
+              <FeedbackMessage message={feedbackMessage} />
+            </>
+          )}
+        </div>
 
-      {/* Action Buttons */}
-      <div className="w-full max-w-md pb-8 md:pb-12">
         <ActionButtons
           onLike={() => handleSwipe("right")}
           onDislike={() => handleSwipe("left")}
           disabled={isAnimating}
         />
-      </div>
+      </main>
+
+      {/* Empty footer spacer */}
+      <div />
     </div>
   );
 };

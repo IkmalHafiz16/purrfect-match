@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Heart, X } from "lucide-react";
+import "../styles/SwipeCard.css";
 
 interface SwipeCardProps {
   imageUrl: string;
@@ -78,9 +78,7 @@ export const SwipeCard = ({ imageUrl, onSwipe, isTop }: SwipeCardProps) => {
   return (
     <div
       ref={cardRef}
-      className={`absolute w-full h-full touch-none select-none ${
-        isTop ? "cursor-grab active:cursor-grabbing z-10" : "z-0"
-      }`}
+      className={`swipe-card ${isTop ? "is-top" : ""}`}
       style={{
         transform: `translate(${position.x}px, ${position.y}px) rotate(${rotation}deg) scale(${
           isTop ? 1 : 0.95
@@ -95,21 +93,21 @@ export const SwipeCard = ({ imageUrl, onSwipe, isTop }: SwipeCardProps) => {
         }
       }}
     >
-      <div className="relative w-full h-full bg-card rounded-3xl overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)]">
+      <div className="swipe-card-inner">
         <img
           src={imageUrl}
           alt="Cute cat"
-          className="w-full h-full object-cover"
+          className="swipe-card-image"
           draggable={false}
         />
         
         {/* Like overlay */}
         <div
-          className="absolute inset-0 flex items-center justify-center bg-like/80 pointer-events-none"
+          className="swipe-card-overlay like"
           style={{ opacity: position.x > 0 ? getOpacity() : 0 }}
         >
-          <div className="transform rotate-[-20deg]">
-            <div className="bg-like-foreground text-like font-bold text-5xl md:text-7xl px-8 py-4 rounded-2xl border-4 border-like">
+          <div className="swipe-card-overlay-content-wrapper">
+            <div className="swipe-card-overlay-content">
               LIKE
             </div>
           </div>
@@ -117,11 +115,11 @@ export const SwipeCard = ({ imageUrl, onSwipe, isTop }: SwipeCardProps) => {
 
         {/* Dislike overlay */}
         <div
-          className="absolute inset-0 flex items-center justify-center bg-dislike/80 pointer-events-none"
+          className="swipe-card-overlay dislike"
           style={{ opacity: position.x < 0 ? getOpacity() : 0 }}
         >
-          <div className="transform rotate-[20deg]">
-            <div className="bg-dislike-foreground text-dislike font-bold text-5xl md:text-7xl px-8 py-4 rounded-2xl border-4 border-dislike">
+          <div className="swipe-card-overlay-content-wrapper">
+            <div className="swipe-card-overlay-content">
               NOPE
             </div>
           </div>

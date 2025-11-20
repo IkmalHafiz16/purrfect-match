@@ -1,5 +1,5 @@
 import { Heart, X } from "lucide-react";
-import { Button } from "./ui/button";
+import "../styles/ActionButtons.css";
 
 interface ActionButtonsProps {
   onLike: () => void;
@@ -9,33 +9,30 @@ interface ActionButtonsProps {
 
 export const ActionButtons = ({ onLike, onDislike, disabled }: ActionButtonsProps) => {
   return (
-    <div className="flex items-center justify-center gap-6 md:gap-8">
-      <Button
-        size="lg"
+    <div className="action-buttons-container">
+      <button
         onClick={onDislike}
         disabled={disabled}
-        className="h-16 w-16 md:h-20 md:w-20 rounded-full bg-dislike hover:bg-dislike/90 hover:scale-110 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50"
+        className="action-button dislike"
       >
-        <X className="h-8 w-8 md:h-10 md:w-10 text-dislike-foreground" />
-      </Button>
+        <X className="action-button-icon dislike" />
+      </button>
       
-      <Button
-        size="lg"
+      <button
         onClick={onLike}
         disabled={disabled}
-        className="h-20 w-20 md:h-24 md:w-24 rounded-full bg-like hover:bg-like/90 hover:scale-110 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50"
+        className="action-button like"
       >
-        <Heart className="h-10 w-10 md:h-12 md:w-12 text-like-foreground fill-current" />
-      </Button>
+        <Heart className="action-button-icon like" />
+      </button>
       
-      <Button
-        size="lg"
+      <button
         onClick={onDislike}
         disabled={disabled}
-        className="h-16 w-16 md:h-20 md:w-20 rounded-full bg-dislike hover:bg-dislike/90 hover:scale-110 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50"
+        className="action-button dislike"
       >
-        <X className="h-8 w-8 md:h-10 md:w-10 text-dislike-foreground" />
-      </Button>
+        <X className="action-button-icon dislike" />
+      </button>
     </div>
   );
 };
