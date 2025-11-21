@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "./components/ui/toaster";
+import { Toaster as Sonner } from "./components/ui/sonner";
+import { TooltipProvider } from "./components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SwipeCard } from "@/components/SwipeCard";
-import { ActionButtons } from "@/components/ActionButtons";
-import { Summary } from "@/components/Summary";
-import { FeedbackMessage } from "@/components/FeedbackMessage";
-import { Progress } from "@/components/ui/progress";
+import { SwipeCard } from "./components/SwipeCard";
+import { ActionButtons } from "./components/ActionButtons";
+import { Summary } from "./components/Summary";
+import { FeedbackMessage } from "./components/FeedbackMessage";
+import { Progress } from "./components/ui/progress";
 import { Cat } from "lucide-react";
 import "./App.css";
 
