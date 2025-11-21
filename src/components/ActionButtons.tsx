@@ -1,5 +1,4 @@
 import { Heart, X } from "lucide-react";
-import "../styles/ActionButtons.css";
 
 interface ActionButtonsProps {
   onLike: () => void;

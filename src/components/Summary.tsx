@@ -1,5 +1,4 @@
 import { Heart, RotateCcw } from "lucide-react";
-import "../styles/Summary.css";
 
 interface SummaryProps {
   likedCats: string[];
